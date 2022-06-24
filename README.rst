@@ -1,16 +1,11 @@
 What happens when...
 ====================
 
-This repository is an attempt to answer the age-old interview question "What
-happens when you type google.com into your browser's address box and press
-enter?"
+This repository is an attempt to answer the age-old interview question "What happens when you type google.com into your browser's address box and press enter?"
 
-Except instead of the usual story, we're going to try to answer this question
-in as much detail as possible. No skipping out on anything.
+Except instead of the usual story, we're going to try to answer this question in as much detail as possible. No skipping out on anything.
 
-This is a collaborative process, so dig in and try to help out! There are tons
-of details missing, just waiting for you to add them! So send us a pull
-request, please!
+This is a collaborative process, so dig in and try to help out! There are tons of details missing, just waiting for you to add them! So send us a pull request, please!
 
 This is all licensed under the terms of the `Creative Commons Zero`_ license.
 
@@ -27,73 +22,89 @@ Table of Contents
 
 The "g" key is pressed
 ----------------------
-The following sections explain the physical keyboard actions
-and the OS interrupts. When you press the key "g" the browser receives the
-event and the auto-complete functions kick in.
-Depending on your browser's algorithm and if you are in
-private/incognito mode or not various suggestions will be presented
-to you in the dropdown below the URL bar. Most of these algorithms sort
-and prioritize results based on search history, bookmarks, cookies, and
-popular searches from the internet as a whole. As you are typing
-"google.com" many blocks of code run and the suggestions will be refined
-with each keypress. It may even suggest "google.com" before you finish typing
-it.
+The following sections explain the physical keyboard actions and the OS interrupts.
+When you press the key "g" the browser receives the event and the auto-complete functions kick in.
+Depending on your browser's algorithm and if you are in private/incognito mode or not various suggestions will be presented to you in the dropdown below the URL bar.
+Most of these algorithms sort and prioritize results based on search history, bookmarks, cookies, and popular searches from the internet as a whole.
+As you are typing "google.com" many blocks of code run and the suggestions will be refined with each keypress.
+It may even suggest "google.com" before you finish typing it.
+
+下面的章节解释了物理键盘的动作和操作系统的中断。
+
+当你按下 "g "键时，浏览器会接收到该事件，自动完成功能就会启动。
+
+根据你的浏览器的算法，以及是否处于私人/隐身模式，各种建议将在URL栏下面的下拉菜单中呈现给你。
+
+这些算法中的大多数都是根据搜索历史、书签、cookies和整个互联网的热门搜索来对结果进行分类和优先排序。
+
+当你输入 "google.com "时，许多代码块都在运行，建议将随着每次按键而完善。
+
+它甚至可能在你完成输入之前，就建议你输入 "google.com"。
 
 The "enter" key bottoms out
 ---------------------------
 
-To pick a zero point, let's choose the Enter key on the keyboard hitting the
-bottom of its range. At this point, an electrical circuit specific to the enter
-key is closed (either directly or capacitively). This allows a small amount of
-current to flow into the logic circuitry of the keyboard, which scans the state
-of each key switch, debounces the electrical noise of the rapid intermittent
-closure of the switch, and converts it to a keycode integer, in this case 13.
+To pick a zero point, let's choose the Enter key on the keyboard hitting the bottom of its range.
+At this point, an electrical circuit specific to the enter key is closed (either directly or capacitively).
+This allows a small amount of current to flow into the logic circuitry of the keyboard, which scans the state of each key switch, debounces the electrical noise of the rapid intermittent closure of the switch, and converts it to a keycode integer, in this case 13.
 The keyboard controller then encodes the keycode for transport to the computer.
-This is now almost universally over a Universal Serial Bus (USB) or Bluetooth
-connection, but historically has been over PS/2 or ADB connections.
+This is now almost universally over a Universal Serial Bus (USB) or Bluetooth connection, but historically has been over PS/2 or ADB connections.
+
+为了选择一个零点，让我们选择键盘上的 Enter 键打到其范围的底部。
+
+在这一点上，一个专门针对 Enter 键的电路被关闭（直接或电容式）。
+
+这允许少量的电流流入键盘的逻辑电路，扫描每个按键开关的状态，去掉开关快速间歇性关闭的电噪声，并将其转换为按键代码的整数，在这种情况下为13。
+
+然后，键盘控制器对键码进行编码，以便传送到计算机上。
+
+现在几乎普遍是通过通用串行总线（USB）或蓝牙连接，但在历史上是通过PS/2或ADB连接。
 
 *In the case of the USB keyboard:*
 
-- The USB circuitry of the keyboard is powered by the 5V supply provided over
-  pin 1 from the computer's USB host controller.
+- The USB circuitry of the keyboard is powered by the 5V supply provided over pin 1 from the computer's USB host controller.
 
-- The keycode generated is stored by internal keyboard circuitry memory in a
-  register called "endpoint".
+- The keycode generated is stored by internal keyboard circuitry memory in a register called "endpoint".
 
 - The host USB controller polls that "endpoint" every ~10ms (minimum value
   declared by the keyboard), so it gets the keycode value stored on it.
 
-- This value goes to the USB SIE (Serial Interface Engine) to be converted in
-  one or more USB packets that follow the low-level USB protocol.
+- This value goes to the USB SIE (Serial Interface Engine) to be converted in one or more USB packets that follow the low-level USB protocol.
 
-- Those packets are sent by a differential electrical signal over D+ and D-
-  pins (the middle 2) at a maximum speed of 1.5 Mb/s, as an HID
-  (Human Interface Device) device is always declared to be a "low-speed device"
-  (USB 2.0 compliance).
+- Those packets are sent by a differential electrical signal over D+ and D- pins (the middle 2) at a maximum speed of 1.5 Mb/s, as an HID (Human Interface Device) device is always declared to be a "low-speed device" (USB 2.0 compliance).
 
-- This serial signal is then decoded at the computer's host USB controller, and
-  interpreted by the computer's Human Interface Device (HID) universal keyboard
-  device driver.  The value of the key is then passed into the operating
-  system's hardware abstraction layer.
+- This serial signal is then decoded at the computer's host USB controller, and interpreted by the computer's Human Interface Device (HID) universal keyboard device driver.  The value of the key is then passed into the operating system's hardware abstraction layer.
+
+- 键盘的USB电路由计算机的USB主机控制器的第1脚提供的5V电源供电。
+
+- 产生的键码由内部键盘电路存储器存储在一个称为 "端点 "的寄存器中。
+
+- USB主机控制器每隔约10ms就会对 "端点 "进行轮询（最小值键盘声明的最小值），所以它获得存储在上面的键码值。
+
+- 这个值被送到USB SIE（串行接口引擎），在一个或多个遵循低级USB协议的USB数据包中转换。
+
+- 这些数据包通过D+和D-引脚（中间的2个）的差分电信号发送，最高速度为1.5 Mb/s，因为HID（人机接口设备）设备总是被声明为 "低速设备"（符合USB 2.0）。
+
+- 然后这个串行信号在计算机的主机USB控制器处被解码，并由计算机的人机接口设备（HID）通用键盘设备驱动程序进行解释。 然后，按键的值被传入操作系统的硬件抽象层。
 
 *In the case of Virtual Keyboard (as in touch screen devices):*
 
-- When the user puts their finger on a modern capacitive touch screen, a
-  tiny amount of current gets transferred to the finger. This completes the
-  circuit through the electrostatic field of the conductive layer and
-  creates a voltage drop at that point on the screen. The
-  ``screen controller`` then raises an interrupt reporting the coordinate of
-  the keypress.
+- When the user puts their finger on a modern capacitive touch screen, a tiny amount of current gets transferred to the finger. This completes the circuit through the electrostatic field of the conductive layer and creates a voltage drop at that point on the screen. The ``screen controller`` then raises an interrupt reporting the coordinate of the keypress.
 
-- Then the mobile OS notifies the currently focused application of a press event
-  in one of its GUI elements (which now is the virtual keyboard application
-  buttons).
+- Then the mobile OS notifies the currently focused application of a press event in one of its GUI elements (which now is the virtual keyboard application buttons).
 
 - The virtual keyboard can now raise a software interrupt for sending a
   'key pressed' message back to the OS.
 
-- This interrupt notifies the currently focused application of a 'key pressed'
-  event.
+- This interrupt notifies the currently focused application of a 'key pressed' event.
+
+- 当用户将手指放在现代电容式触摸屏上时，少量的电流会被转移到手指上。这通过导电层的静电场完成了电路，并在屏幕上的那个点产生了电压降。然后，"屏幕控制器 "提出一个中断，报告按键的坐标。
+
+- 然后，移动操作系统通知当前关注的应用程序在其GUI元素之一（现在是虚拟键盘应用程序的按钮）中发生了按压事件。
+
+- 虚拟键盘现在可以提出一个软件中断，以发送一个 'key pressed' 的消息返回到操作系统。
+
+- 这个中断通知当前 focused 的应用程序有一个 'key pressed' 事件。
 
 
 Interrupt fires [NOT for USB keyboards]
