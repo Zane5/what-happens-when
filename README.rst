@@ -62,30 +62,30 @@ This is now almost universally over a Universal Serial Bus (USB) or Bluetooth co
 
 *In the case of the USB keyboard:*
 
-- The USB circuitry of the keyboard is powered by the 5V supply provided over pin 1 from the computer's USB host controller.
+1. The USB circuitry of the keyboard is powered by the 5V supply provided over pin 1 from the computer's USB host controller.
 
-- The keycode generated is stored by internal keyboard circuitry memory in a register called "endpoint".
+2. The keycode generated is stored by internal keyboard circuitry memory in a register called "endpoint".
 
-- The host USB controller polls that "endpoint" every ~10ms (minimum value
+3. The host USB controller polls that "endpoint" every ~10ms (minimum value
   declared by the keyboard), so it gets the keycode value stored on it.
 
-- This value goes to the USB SIE (Serial Interface Engine) to be converted in one or more USB packets that follow the low-level USB protocol.
+4. This value goes to the USB SIE (Serial Interface Engine) to be converted in one or more USB packets that follow the low-level USB protocol.
 
-- Those packets are sent by a differential electrical signal over D+ and D- pins (the middle 2) at a maximum speed of 1.5 Mb/s, as an HID (Human Interface Device) device is always declared to be a "low-speed device" (USB 2.0 compliance).
+5. Those packets are sent by a differential electrical signal over D+ and D- pins (the middle 2) at a maximum speed of 1.5 Mb/s, as an HID (Human Interface Device) device is always declared to be a "low-speed device" (USB 2.0 compliance).
 
-- This serial signal is then decoded at the computer's host USB controller, and interpreted by the computer's Human Interface Device (HID) universal keyboard device driver.  The value of the key is then passed into the operating system's hardware abstraction layer.
+6. This serial signal is then decoded at the computer's host USB controller, and interpreted by the computer's Human Interface Device (HID) universal keyboard device driver.  The value of the key is then passed into the operating system's hardware abstraction layer.
 
-- 键盘的USB电路由计算机的USB主机控制器的第1脚提供的5V电源供电。
+1. 键盘的USB电路由计算机的USB主机控制器的第1脚提供的5V电源供电。
 
-- 产生的键码由内部键盘电路存储器存储在一个称为 "端点 "的寄存器中。
+2. 产生的键码由内部键盘电路存储器存储在一个称为 "端点 "的寄存器中。
 
-- USB主机控制器每隔约10ms就会对 "端点 "进行轮询（最小值键盘声明的最小值），所以它获得存储在上面的键码值。
+3. USB主机控制器每隔约10ms就会对 "端点 "进行轮询（最小值键盘声明的最小值），所以它获得存储在上面的键码值。
 
-- 这个值被送到USB SIE（串行接口引擎），在一个或多个遵循低级USB协议的USB数据包中转换。
+4. 这个值被送到USB SIE（串行接口引擎），在一个或多个遵循低级USB协议的USB数据包中转换。
 
-- 这些数据包通过D+和D-引脚（中间的2个）的差分电信号发送，最高速度为1.5 Mb/s，因为HID（人机接口设备）设备总是被声明为 "低速设备"（符合USB 2.0）。
+5. 这些数据包通过D+和D-引脚（中间的2个）的差分电信号发送，最高速度为1.5 Mb/s，因为HID（人机接口设备）设备总是被声明为 "低速设备"（符合USB 2.0）。
 
-- 然后这个串行信号在计算机的主机USB控制器处被解码，并由计算机的人机接口设备（HID）通用键盘设备驱动程序进行解释。 然后，按键的值被传入操作系统的硬件抽象层。
+6. 然后这个串行信号在计算机的主机USB控制器处被解码，并由计算机的人机接口设备（HID）通用键盘设备驱动程序进行解释。 然后，按键的值被传入操作系统的硬件抽象层。
 
 *In the case of Virtual Keyboard (as in touch screen devices):*
 
@@ -98,55 +98,72 @@ This is now almost universally over a Universal Serial Bus (USB) or Bluetooth co
 
 - This interrupt notifies the currently focused application of a 'key pressed' event.
 
-- 当用户将手指放在现代电容式触摸屏上时，少量的电流会被转移到手指上。这通过导电层的静电场完成了电路，并在屏幕上的那个点产生了电压降。然后，"屏幕控制器 "提出一个中断，报告按键的坐标。
+1. 当用户将手指放在现代电容式触摸屏上时，少量的电流会被转移到手指上。这通过导电层的静电场完成了电路，并在屏幕上的那个点产生了电压降。然后，"屏幕控制器 "提出一个中断，报告按键的坐标。
 
-- 然后，移动操作系统通知当前关注的应用程序在其GUI元素之一（现在是虚拟键盘应用程序的按钮）中发生了按压事件。
+2. 然后，移动操作系统通知当前关注的应用程序在其GUI元素之一（现在是虚拟键盘应用程序的按钮）中发生了按压事件。
 
-- 虚拟键盘现在可以提出一个软件中断，以发送一个 'key pressed' 的消息返回到操作系统。
+3. 虚拟键盘现在可以提出一个软件中断，以发送一个 'key pressed' 的消息返回到操作系统。
 
-- 这个中断通知当前 focused 的应用程序有一个 'key pressed' 事件。
+4. 这个中断通知当前 focused 的应用程序有一个 'key pressed' 事件。
 
 
 Interrupt fires [NOT for USB keyboards]
 ---------------------------------------
 
-The keyboard sends signals on its interrupt request line (IRQ), which is mapped
-to an ``interrupt vector`` (integer) by the interrupt controller. The CPU uses
-the ``Interrupt Descriptor Table`` (IDT) to map the interrupt vectors to
-functions (``interrupt handlers``) which are supplied by the kernel. When an
-interrupt arrives, the CPU indexes the IDT with the interrupt vector and runs
-the appropriate handler. Thus, the kernel is entered.
+The keyboard sends signals on its interrupt request line (IRQ), which is mapped to an ``interrupt vector`` (integer) by the interrupt controller.
+The CPU uses the ``Interrupt Descriptor Table`` (IDT) to map the interrupt vectors to functions (``interrupt handlers``) which are supplied by the kernel.
+When an interrupt arrives, the CPU indexes the IDT with the interrupt vector and runs the appropriate handler.
+Thus, the kernel is entered.
+
+键盘在其中断请求线（IRQ）上发送信号，中断控制器将其映射到一个 "中断向量"``interrupt vector``（整数）。
+CPU使用 "中断描述符表" ``Interrupt Descriptor Table`` （IDT）将中断向量映射到由内核提供的函数（"中断处理程序"``interrupt handlers``）。
+当一个中断到来时，CPU用中断向量索引IDT并运行适当的处理程序。
+这样，就进入了内核。
 
 (On Windows) A ``WM_KEYDOWN`` message is sent to the app
 --------------------------------------------------------
 
-The HID transport passes the key down event to the ``KBDHID.sys`` driver which
-converts the HID usage into a scancode. In this case, the scan code is
-``VK_RETURN`` (``0x0D``). The ``KBDHID.sys`` driver interfaces with the
-``KBDCLASS.sys`` (keyboard class driver). This driver is responsible for
-handling all keyboard and keypad input in a secure manner. It then calls into
-``Win32K.sys`` (after potentially passing the message through 3rd party
-keyboard filters that are installed). This all happens in kernel mode.
+The HID transport passes the key down event to the ``KBDHID.sys`` driver which converts the HID usage into a scancode. In this case, the scan code is ``VK_RETURN`` (``0x0D``).
 
-``Win32K.sys`` figures out what window is the active window through the
-``GetForegroundWindow()`` API. This API provides the window handle of the
-browser's address box. The main Windows "message pump" then calls
-``SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, lParam)``. ``lParam`` is a bitmask
-that indicates further information about the keypress: repeat count (0 in this
-case), the actual scan code (can be OEM dependent, but generally wouldn't be
-for ``VK_RETURN``), whether extended keys (e.g. alt, shift, ctrl) were also
-pressed (they weren't), and some other state.
+The ``KBDHID.sys`` driver interfaces with the ``KBDCLASS.sys`` (keyboard class driver). This driver is responsible for handling all keyboard and keypad input in a secure manner.
 
-The Windows ``SendMessage`` API is a straightforward function that
-adds the message to a queue for the particular window handle (``hWnd``).
-Later, the main message processing function (called a ``WindowProc``) assigned
-to the ``hWnd`` is called in order to process each message in the queue.
+It then calls into ``Win32K.sys`` (after potentially passing the message through 3rd party keyboard filters that are installed).
+This all happens in kernel mode.
 
-The window (``hWnd``) that is active is actually an edit control and the
-``WindowProc`` in this case has a message handler for ``WM_KEYDOWN`` messages.
-This code looks within the 3rd parameter that was passed to ``SendMessage``
-(``wParam``) and, because it is ``VK_RETURN`` knows the user has hit the ENTER
-key.
+``Win32K.sys`` figures out what window is the active window through the ``GetForegroundWindow()`` API.
+
+This API provides the window handle of the browser's address box.
+
+The main Windows "message pump" then calls ``SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, lParam)``. ``lParam`` is a bitmask that indicates further information about the keypress: repeat count (0 in this case), the actual scan code (can be OEM dependent, but generally wouldn't be for ``VK_RETURN``), whether extended keys (e.g. alt, shift, ctrl) were also pressed (they weren't), and some other state.
+
+The Windows ``SendMessage`` API is a straightforward function that adds the message to a queue for the particular window handle (``hWnd``).
+
+Later, the main message processing function (called a ``WindowProc``) assigned to the ``hWnd`` is called in order to process each message in the queue.
+
+The window (``hWnd``) that is active is actually an edit control and the ``WindowProc`` in this case has a message handler for ``WM_KEYDOWN`` messages.
+
+This code looks within the 3rd parameter that was passed to ``SendMessage`` (``wParam``) and, because it is ``VK_RETURN`` knows the user has hit the ENTER key.
+
+1. HID传输系统将按键下降事件传递给``KBDHID.sys``驱动程序，该驱动程序将HID使用情况转换为扫描码。在这种情况下，扫描代码是`VK_RETURN`（`0x0D`）。
+
+2. ``KBDHID.sys``驱动程序与``KBDCLASS.sys``（键盘类驱动程序）接口。该驱动负责以安全的方式处理所有的键盘和小键盘输入。
+
+3. 然后它调用``Win32K.sys``（在可能通过安装的第三方键盘过滤器后）。
+这一切都发生在内核模式下。
+
+4. ``Win32K.sys``通过``GetForegroundWindow()``的API找出哪个窗口是活动窗口。
+
+5. 这个API提供了浏览器地址框的窗口句柄。
+
+6. 然后主Windows "消息泵 "调用``SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, lParam)``。``lParam``是一个比特掩码，表示有关按键的进一步信息：重复次数（本例中为0），实际的扫描代码（可能与OEM有关，但对于``VK_RETURN``一般不会），是否也按了扩展键（例如alt, shift, ctrl）（它们没有），以及其他一些状态。
+
+7. Windows的``SendMessage``API是一个直接的函数，将消息添加到特定窗口句柄（``hWnd``）的队列中。
+
+8. 之后，分配给``hWnd``的主要消息处理函数（称为``WindowProc``）被调用，以处理队列中的每条消息。
+
+9. 活动的窗口（``hWnd``）实际上是一个编辑控件，在这种情况下，``WindowProc``有一个处理``WM_KEYDOWN``消息的函数。
+
+10. 这段代码在传递给``SendMessage``(``wParam``)的第三个参数中寻找，因为它是``VK_RETURN``，所以知道用户已经按了ENTER键。
 
 (On OS X) A ``KeyDown`` NSEvent is sent to the app
 --------------------------------------------------
