@@ -239,7 +239,7 @@ Convert non-ASCII Unicode characters in the hostname
 
 * Since the hostname is ``google.com`` there won't be any, but if there were the browser would apply `Punycode`_ encoding to the hostname portion of the URL.
 
-#. 浏览器检查主机名中是否有不属于 ``a-z`` 的字符 ``A-Z``, ``0-9``, ``-``, 或 ``.``中的字符。
+#. 浏览器检查主机名中是否有不属于 ``a-z`` 的字符 ``A-Z``, ``0-9``, ``-``, 或 ``.`` 中的字符。
 
 #. 由于主机名是 ``google.com``，所以不会有任何字符，但如果有的话，浏览器会对URL的主机名部分应用 `Punycode`_ 编码。
 
