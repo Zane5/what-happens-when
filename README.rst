@@ -62,29 +62,29 @@ This is now almost universally over a Universal Serial Bus (USB) or Bluetooth co
 
 *In the case of the USB keyboard:*
 
-1. The USB circuitry of the keyboard is powered by the 5V supply provided over pin 1 from the computer's USB host controller.
+* The USB circuitry of the keyboard is powered by the 5V supply provided over pin 1 from the computer's USB host controller.
 
-2. The keycode generated is stored by internal keyboard circuitry memory in a register called "endpoint".
+* The keycode generated is stored by internal keyboard circuitry memory in a register called "endpoint".
 
-3. The host USB controller polls that "endpoint" every ~10ms (minimum value declared by the keyboard), so it gets the keycode value stored on it.
+* The host USB controller polls that "endpoint" every ~10ms (minimum value declared by the keyboard), so it gets the keycode value stored on it.
 
-4. This value goes to the USB SIE (Serial Interface Engine) to be converted in one or more USB packets that follow the low-level USB protocol.
+* This value goes to the USB SIE (Serial Interface Engine) to be converted in one or more USB packets that follow the low-level USB protocol.
 
-5. Those packets are sent by a differential electrical signal over D+ and D- pins (the middle 2) at a maximum speed of 1.5 Mb/s, as an HID (Human Interface Device) device is always declared to be a "low-speed device" (USB 2.0 compliance).
+* Those packets are sent by a differential electrical signal over D+ and D- pins (the middle 2) at a maximum speed of 1.5 Mb/s, as an HID (Human Interface Device) device is always declared to be a "low-speed device" (USB 2.0 compliance).
 
-6. This serial signal is then decoded at the computer's host USB controller, and interpreted by the computer's Human Interface Device (HID) universal keyboard device driver.  The value of the key is then passed into the operating system's hardware abstraction layer.
+* This serial signal is then decoded at the computer's host USB controller, and interpreted by the computer's Human Interface Device (HID) universal keyboard device driver.  The value of the key is then passed into the operating system's hardware abstraction layer.
 
-1. 键盘的USB电路由计算机的USB主机控制器的第1脚提供的5V电源供电。
+#. 键盘的USB电路由计算机的USB主机控制器的第1脚提供的5V电源供电。
 
-2. 产生的键码由内部键盘电路存储器存储在一个称为 "端点 "的寄存器中。
+#. 产生的键码由内部键盘电路存储器存储在一个称为 "端点 "的寄存器中。
 
-3. USB主机控制器每隔约10ms就会对 "端点 "进行轮询（最小值键盘声明的最小值），所以它获得存储在上面的键码值。
+#. USB主机控制器每隔约10ms就会对 "端点 "进行轮询（最小值键盘声明的最小值），所以它获得存储在上面的键码值。
 
-4. 这个值被送到USB SIE（串行接口引擎），在一个或多个遵循低级USB协议的USB数据包中转换。
+#. 这个值被送到USB SIE（串行接口引擎），在一个或多个遵循低级USB协议的USB数据包中转换。
 
-5. 这些数据包通过D+和D-引脚（中间的2个）的差分电信号发送，最高速度为1.5 Mb/s，因为HID（人机接口设备）设备总是被声明为 "低速设备"（符合USB 2.0）。
+#. 这些数据包通过D+和D-引脚（中间的2个）的差分电信号发送，最高速度为1.5 Mb/s，因为HID（人机接口设备）设备总是被声明为 "低速设备"（符合USB 2.0）。
 
-6. 然后这个串行信号在计算机的主机USB控制器处被解码，并由计算机的人机接口设备（HID）通用键盘设备驱动程序进行解释。 然后，按键的值被传入操作系统的硬件抽象层。
+#. 然后这个串行信号在计算机的主机USB控制器处被解码，并由计算机的人机接口设备（HID）通用键盘设备驱动程序进行解释。 然后，按键的值被传入操作系统的硬件抽象层。
 
 *In the case of Virtual Keyboard (as in touch screen devices):*
 
@@ -96,13 +96,13 @@ This is now almost universally over a Universal Serial Bus (USB) or Bluetooth co
 
 - This interrupt notifies the currently focused application of a 'key pressed' event.
 
-1. 当用户将手指放在现代电容式触摸屏上时，少量的电流会被转移到手指上。这通过导电层的静电场完成了电路，并在屏幕上的那个点产生了电压降。然后，"屏幕控制器 "提出一个中断，报告按键的坐标。
+#. 当用户将手指放在现代电容式触摸屏上时，少量的电流会被转移到手指上。这通过导电层的静电场完成了电路，并在屏幕上的那个点产生了电压降。然后，"屏幕控制器 "提出一个中断，报告按键的坐标。
 
-2. 然后，移动操作系统通知当前关注的应用程序在其GUI元素之一（现在是虚拟键盘应用程序的按钮）中发生了按压事件。
+#. 然后，移动操作系统通知当前关注的应用程序在其GUI元素之一（现在是虚拟键盘应用程序的按钮）中发生了按压事件。
 
-3. 虚拟键盘现在可以提出一个软件中断，以发送一个 'key pressed' 的消息返回到操作系统。
+#. 虚拟键盘现在可以提出一个软件中断，以发送一个 'key pressed' 的消息返回到操作系统。
 
-4. 这个中断通知当前 focused 的应用程序有一个 'key pressed' 事件。
+#. 这个中断通知当前 focused 的应用程序有一个 'key pressed' 事件。
 
 
 Interrupt fires [NOT for USB keyboards]
@@ -141,25 +141,25 @@ The window (``hWnd``) that is active is actually an edit control and the ``Windo
 
 This code looks within the 3rd parameter that was passed to ``SendMessage`` (``wParam``) and, because it is ``VK_RETURN`` knows the user has hit the ENTER key.
 
-1. HID传输系统将按键下降事件传递给``KBDHID.sys``驱动程序，该驱动程序将HID使用情况转换为扫描码。在这种情况下，扫描代码是`VK_RETURN`（`0x0D`）。
+#. HID传输系统将按键下降事件传递给``KBDHID.sys``驱动程序，该驱动程序将HID使用情况转换为扫描码。在这种情况下，扫描代码是`VK_RETURN`（`0x0D`）。
 
-2. ``KBDHID.sys``驱动程序与``KBDCLASS.sys``（键盘类驱动程序）接口。该驱动负责以安全的方式处理所有的键盘和小键盘输入。
+#. ``KBDHID.sys``驱动程序与``KBDCLASS.sys``（键盘类驱动程序）接口。该驱动负责以安全的方式处理所有的键盘和小键盘输入。
 
-3. 然后它调用 ``Win32K.sys``（在可能通过安装的第三方键盘过滤器后）。这一切都发生在内核模式下。
+#. 然后它调用 ``Win32K.sys``（在可能通过安装的第三方键盘过滤器后）。这一切都发生在内核模式下。
 
-4. ``Win32K.sys``通过``GetForegroundWindow()``的API找出哪个窗口是活动窗口。
+#. ``Win32K.sys``通过``GetForegroundWindow()``的API找出哪个窗口是活动窗口。
 
-5. 这个API提供了浏览器地址框的窗口句柄。
+#. 这个API提供了浏览器地址框的窗口句柄。
 
-6. 然后主Windows "消息泵 message pump" 调用 ``SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, lParam)``。 ``lParam``是一个比特掩码，表示有关按键的进一步信息：重复次数（本例中为0），实际的扫描代码（可能与OEM有关，但对于 ``VK_RETURN`` 一般不会），是否也按了扩展键（例如alt, shift, ctrl）（它们没有），以及其他一些状态。
+#. 然后主Windows "消息泵 message pump" 调用 ``SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, lParam)``。 ``lParam``是一个比特掩码，表示有关按键的进一步信息：重复次数（本例中为0），实际的扫描代码（可能与OEM有关，但对于 ``VK_RETURN`` 一般不会），是否也按了扩展键（例如alt, shift, ctrl）（它们没有），以及其他一些状态。
 
-7. Windows的 ``SendMessage`` API是一个直接的函数，将消息添加到特定窗口句柄（ ``hWnd`` ）的队列中。
+#. Windows的 ``SendMessage`` API是一个直接的函数，将消息添加到特定窗口句柄（ ``hWnd`` ）的队列中。
 
-8. 之后，分配给 ``hWnd`` 的主要消息处理函数（称为 ``WindowProc`` ）被调用，以处理队列中的每条消息。
+#. 之后，分配给 ``hWnd`` 的主要消息处理函数（称为 ``WindowProc`` ）被调用，以处理队列中的每条消息。
 
-9. 活动的窗口（ ``hWnd``）实际上是一个编辑控件，在这种情况下， ``WindowProc``有一个处理 ``WM_KEYDOWN`` 消息的函数。
+#. 活动的窗口（ ``hWnd``）实际上是一个编辑控件，在这种情况下， ``WindowProc``有一个处理 ``WM_KEYDOWN`` 消息的函数。
 
-10. 这段代码在传递给 ``SendMessage``(``wParam``)的第三个参数中寻找，因为它是 ``VK_RETURN``，所以知道用户已经按了ENTER键。
+#. 这段代码在传递给 ``SendMessage``(``wParam``)的第三个参数中寻找，因为它是 ``VK_RETURN``，所以知道用户已经按了ENTER键。
 
 (On OS X) A ``KeyDown`` NSEvent is sent to the app
 --------------------------------------------------
@@ -239,9 +239,9 @@ Convert non-ASCII Unicode characters in the hostname
 
 * Since the hostname is ``google.com`` there won't be any, but if there were the browser would apply `Punycode`_ encoding to the hostname portion of the URL.
 
-* 浏览器检查主机名中是否有不属于 ``a-z`` 的字符 ``A-Z``, ``0-9``, ``-``, 或 ``.``中的字符。
+#. 浏览器检查主机名中是否有不属于 ``a-z`` 的字符 ``A-Z``, ``0-9``, ``-``, 或 ``.``中的字符。
 
-* 由于主机名是 ``google.com``，所以不会有任何字符，但如果有的话，浏览器会对URL的主机名部分应用 `Punycode`_ 编码。
+#. 由于主机名是 ``google.com``，所以不会有任何字符，但如果有的话，浏览器会对URL的主机名部分应用 `Punycode`_ 编码。
 
 Check HSTS list
 ---------------
@@ -268,17 +268,17 @@ DNS lookup
 
 * If the DNS server is on a different subnet, the network library follows the ``ARP process`` below for the default gateway IP.
 
-1. 浏览器检查该域名是否在其缓存中。(要查看Chrome浏览器的 DNS 缓存，请到 `chrome://net-internals/#dns <chrome://net-internals/#dns>`_)。
+#. 浏览器检查该域名是否在其缓存中。(要查看Chrome浏览器的 DNS 缓存，请到 `chrome://net-internals/#dns <chrome://net-internals/#dns>`_)。
 
-* 如果没有找到，浏览器会调用``gethostbyname``库函数（因操作系统而异）来进行查询。
+#. 如果没有找到，浏览器会调用``gethostbyname``库函数（因操作系统而异）来进行查询。
 
-* ``gethostbyname`` 检查主机名是否可以在本地 ``hosts`` 文件（其位置 `因操作系统而异`_） 中通过引用来解决，然后再尝试通过 DNS 解决该主机名。
+#. ``gethostbyname`` 检查主机名是否可以在本地 ``hosts`` 文件（其位置 `因操作系统而异`_） 中通过引用来解决，然后再尝试通过 DNS 解决该主机名。
 
-* 如果 ``gethostbyname`` 没有缓存，也不能在 ``hosts`` 文件中找到它，那么它就向网络堆栈中配置的 DNS 服务器提出请求。这通常是指本地路由器或 ISP 的缓存 DNS 服务器。
+#. 如果 ``gethostbyname`` 没有缓存，也不能在 ``hosts`` 文件中找到它，那么它就向网络堆栈中配置的 DNS 服务器提出请求。这通常是指本地路由器或 ISP 的缓存 DNS 服务器。
 
-* 如果 DNS 服务器在同一个子网中，网络库会按照下面的 ``ARP process`` 对 DNS 服务器进行访问。
+#. 如果 DNS 服务器在同一个子网中，网络库会按照下面的 ``ARP process`` 对 DNS 服务器进行访问。
 
-* 如果 DNS 服务器在不同的子网，网络库按照下面的 ``ARP process`` 来处理默认网关IP。
+#. 如果 DNS 服务器在不同的子网，网络库按照下面的 ``ARP process`` 来处理默认网关IP。
 
 ARP process
 -----------
@@ -365,9 +365,11 @@ Now that the network library has the IP address of either our DNS server or the 
 
 现在，网络库已经有了我们的 DNS 服务器或默认网关的IP地址，它可以恢复其 DNS 进程。
 
-* DNS 客户端在 DNS 服务器上建立了一个 UDP 端口53的套接字。 使用一个高于 1023 的源端口。
-* 如果响应大小太大，将使用 TCP 代替。
-* 如果 local/ISP 的 DNS 服务器没有，则要求进行递归搜索，并在 DNS 服务器列表中流动，直到到达 SOA，如果找到答案则返回。
+#. DNS 客户端在 DNS 服务器上建立了一个 UDP 端口53的套接字。 使用一个高于 1023 的源端口。
+
+#. 如果响应大小太大，将使用 TCP 代替。
+
+#. 如果 local/ISP 的 DNS 服务器没有，则要求进行递归搜索，并在 DNS 服务器列表中流动，直到到达 SOA，如果找到答案则返回。
 
 Opening of a socket
 -------------------
@@ -381,11 +383,11 @@ Once the browser receives the IP address of the destination server, it takes tha
 
 一旦浏览器收到目标服务器的IP地址，就会从URL中获取该地址和给定的端口号（HTTP协议默认为80端口，HTTPS为443端口），并调用系统库函数`socket`，请求一个TCP套接字流 - ``AF_INET/AF_INET6`` 和 ``SOCK_STREAM``。
 
-* 这个请求首先被传递到传输层，在那里制作了一个TCP段。目标端口被添加到标题中，并从内核的动态端口范围（Linux的ip_local_port_range）中选择一个源端口。
+#. 这个请求首先被传递到传输层，在那里制作了一个TCP段。目标端口被添加到标题中，并从内核的动态端口范围（Linux的ip_local_port_range）中选择一个源端口。
 
-* 该段被发送到网络层，该层包裹了一个额外的IP头。目的地服务器的IP地址以及当前机器的IP地址被插入，形成一个数据包。
+#. 该段被发送到网络层，该层包裹了一个额外的IP头。目的地服务器的IP地址以及当前机器的IP地址被插入，形成一个数据包。
 
-* 该数据包接下来到达链路层。加入一个帧头，包括机器网卡的MAC地址以及网关（本地路由器）的MAC地址。和以前一样，如果内核不知道网关的MAC地址，它必须广播ARP查询以找到它。
+#. 该数据包接下来到达链路层。加入一个帧头，包括机器网卡的MAC地址以及网关（本地路由器）的MAC地址。和以前一样，如果内核不知道网关的MAC地址，它必须广播ARP查询以找到它。
 
 At this point the packet is ready to be transmitted through either:
 
@@ -432,23 +434,23 @@ This send and receive happens multiple times following the TCP connection flow:
 
 这种发送和接收是按照 TCP 连接流程多次进行的。
 
-* 客户端选择一个初始序列号（ISN），并将数据包发送给服务器，同时设置 SYN 位以表示它正在设置 ISN
+#. 客户端选择一个初始序列号（ISN），并将数据包发送给服务器，同时设置 SYN 位以表示它正在设置 ISN
 
-* 服务器收到 SYN，如果它处于同意的状态。
+#. 服务器收到 SYN，如果它处于同意的状态。
    * 服务器选择自己的初始序列号
    * 服务器设置 SYN 以表示它正在选择它的 ISN
    * 服务器将（客户端 ISN+1）复制到它的 ACK 字段，并添加 ACK 标志，以表示它确认收到第一个数据包。
 
-* 客户端通过发送一个数据包来确认连接。
+#. 客户端通过发送一个数据包来确认连接。
    * 增加自己的序列号
    * 增加接收方的确认号码
    * 设置 ACK 字段
 
-* 数据的传输方式如下。
+#. 数据的传输方式如下。
    * 当一方发送 N 个数据字节时，它的 SEQ 增加该数字
    * 当另一方确认收到该数据包（或一串数据包）时，它将发送一个 ACK 数据包， ACK 值等于最后从另一方收到的序列。
 
-* 要关闭连接。
+#. 要关闭连接。
    * 近端发送一个 FIN 数据包
    * 另一方对 FIN 数据包进行 ACK，并发送自己的FIN数据包。
    * 更近的一方用ACK确认另一方的 FIN。
@@ -469,19 +471,19 @@ TLS handshake
 
 * From now on the TLS session transmits the application (HTTP) data encrypted with the agreed symmetric key.
 
-* 客户端计算机向服务器发送一个 ``ClientHello`` 消息，其中包括其传输层安全（TLS）版本、可用的密码算法和压缩方法列表。
+#. 客户端计算机向服务器发送一个 ``ClientHello`` 消息，其中包括其传输层安全（TLS）版本、可用的密码算法和压缩方法列表。
 
-* 服务器向客户发送 ``ServerHello`` 消息，包括 TLS 版本、选择的密码、选择的压缩方法和由 CA（证书机构）签署的服务器公共证书。该证书包含一个公钥，客户端将使用该公钥对握手的其余部分进行加密，直到可以商定一个对称的密钥。
+#. 服务器向客户发送 ``ServerHello`` 消息，包括 TLS 版本、选择的密码、选择的压缩方法和由 CA（证书机构）签署的服务器公共证书。该证书包含一个公钥，客户端将使用该公钥对握手的其余部分进行加密，直到可以商定一个对称的密钥。
 
-* 客户端根据其信任的 CA 列表验证服务器的数字证书。如果可以根据 CA 建立信任，客户端会生成一串伪随机字节，并用服务器的公钥对其进行加密。这些随机字节可以用来确定对称密钥。
+#. 客户端根据其信任的 CA 列表验证服务器的数字证书。如果可以根据 CA 建立信任，客户端会生成一串伪随机字节，并用服务器的公钥对其进行加密。这些随机字节可以用来确定对称密钥。
 
-* 服务器使用其私钥对随机字节进行解密，并使用这些字节来生成其自己的对称主密钥副本。
+#. 服务器使用其私钥对随机字节进行解密，并使用这些字节来生成其自己的对称主密钥副本。
 
-* 客户端向服务器发送一个 ``Finished`` 消息，用对称密钥加密到此为止的传输的哈希值。
+#. 客户端向服务器发送一个 ``Finished`` 消息，用对称密钥加密到此为止的传输的哈希值。
 
-* 服务器生成自己的哈希值，然后解密客户端发送的哈希值以验证其是否匹配。如果匹配，它就向客户发送自己的 ``Finished`` 消息，也是用对称密钥加密的。
+#. 服务器生成自己的哈希值，然后解密客户端发送的哈希值以验证其是否匹配。如果匹配，它就向客户发送自己的 ``Finished`` 消息，也是用对称密钥加密的。
 
-* 从现在开始，TLS 会话传输的应用（HTTP）数据是用约定的对称密钥加密的。
+#. 从现在开始，TLS 会话传输的应用（HTTP）数据是用约定的对称密钥加密的。
 
 If a packet is dropped
 ----------------------
@@ -496,11 +498,11 @@ Sometimes, due to network congestion or flaky hardware connections, TLS packets 
 
 有时，由于网络拥堵或硬件连接不稳定，TLS 数据包在到达其最终目的地之前就会被丢弃。这时发件人必须决定如何应对。这方面的算法被称为 `TCP拥堵控制 TCP congestion control`。这取决于发件人；最常见的算法是较新的操作系统上的 `cubic`_ 和几乎所有其他系统上的 `New Reno`_。
 
-* 客户端根据连接的 `最大网段大小 maximum segment size`_（MSS）选择一个 `拥堵窗口 congestion window`_。
+#. 客户端根据连接的 `最大网段大小 maximum segment size`_（MSS）选择一个 `拥堵窗口 congestion window`_。
 
-* 对于每个确认的数据包，窗口的大小增加一倍，直到达到 "慢速启动阈值"。在一些实施方案中，这个阈值是自适应的。
+#. 对于每个确认的数据包，窗口的大小增加一倍，直到达到 "慢速启动阈值"。在一些实施方案中，这个阈值是自适应的。
 
-* 在达到慢速启动阈值后，每确认一个数据包，窗口都会加法增加。如果一个数据包被丢弃，窗口会以指数形式减少，直到另一个数据包被确认。
+#. 在达到慢速启动阈值后，每确认一个数据包，窗口都会加法增加。如果一个数据包被丢弃，窗口会以指数形式减少，直到另一个数据包被确认。
 
 HTTP protocol
 -------------
@@ -600,9 +602,9 @@ The HTTPD (HTTP Daemon) server is the one handling the requests/responses on the
 
 HTTPD（HTTP Daemon）服务器是, 在服务器端处理请求/响应的服务器。最常见的 HTTPD 服务器是 Linux 的 Apache 或 nginx 和 Windows 的 IIS。
 
-1. HTTPD（HTTP Daemon）接收请求。
+#. HTTPD（HTTP Daemon）接收请求。
 
-2. 服务器将请求分解为以下参数。
+#. 服务器将请求分解为以下参数。
 
    * HTTP请求方法（ ``GET', ``HEAD``, ``POST``, ``PUT``, ``PATCH``, ``DELETE``, ``CONNECT``, ``OPTIONS``, 或 ``TRACE``）。在如果是直接在地址栏输入的URL，这将是 ``GET``。
 
@@ -610,17 +612,17 @@ HTTPD（HTTP Daemon）服务器是, 在服务器端处理请求/响应的服务�
 
    * 请求的 path/page，在这种情况下 - / (因为没有特定的路径/页面被请求，/是默认路径) 因为没有请求特定的 path/page，/ 是默认路径）。
 
-* 服务器验证在服务器上有一个与 google.com 相对应的虚拟主机配置。
+#. 服务器验证在服务器上有一个与 google.com 相对应的虚拟主机配置。
 
-* 服务器验证 google.com 可以接受 GET 请求。
+#. 服务器验证 google.com 可以接受 GET 请求。
 
-* 服务器验证客户是否被允许使用这种方法（通过IP、认证等）。
+#. 服务器验证客户是否被允许使用这种方法（通过IP、认证等）。
 
-* 如果服务器安装了重写模块（如 Apache 的 mod_rewrite 或 IIS 的 URL Rewrite），它试图将请求与配置的规则之一进行匹配。如果找到一个匹配的规则，服务器会使用该规则重写请求。
+#. 如果服务器安装了重写模块（如 Apache 的 mod_rewrite 或 IIS 的 URL Rewrite），它试图将请求与配置的规则之一进行匹配。如果找到一个匹配的规则，服务器会使用该规则重写请求。
 
-* 服务器去提取与请求相对应的内容，在我们的例子中，它将回落到索引文件，因为 ``/`` 是 main file（有些情况下可以覆盖这一点，但这是最常见的方法）。
+#. 服务器去提取与请求相对应的内容，在我们的例子中，它将回落到索引文件，因为 ``/`` 是 main file（有些情况下可以覆盖这一点，但这是最常见的方法）。
 
-* 服务器根据处理程序来解析文件。如果 Google 运行在 PHP 上，服务器会使用 PHP 来解释索引文件，并将输出流向客户端。
+#. 服务器根据处理程序来解析文件。如果 Google 运行在 PHP 上，服务器会使用 PHP 来解释索引文件，并将输出流向客户端。
 
 
 Behind the scenes of the Browser
@@ -663,12 +665,12 @@ common user interface elements are:
 
 浏览器的用户界面有很多共同点。其中的共同的用户界面元素有。
 
-* 一个用于插入URI的地址栏
-* 后退和前进按钮
-* 书签选项
-* 刷新和停止按钮，用于刷新或停止加载当前文件。
+#. 一个用于插入URI的地址栏
+#. 后退和前进按钮
+#. 书签选项
+#. 刷新和停止按钮，用于刷新或停止加载当前文件。
   当前文件的刷新和停止按钮
-* 主页按钮，可以带你到你的主页
+#. 主页按钮，可以带你到你的主页
 
 **Browser High-Level Structure**
 
@@ -690,19 +692,19 @@ The components of the browsers are:
 
 浏览器的组成部分是:
 
-1. **User interface 用户接口 ：** 用户接口包括地址栏、后退/前进按钮、书签菜单等。浏览器显示的每一个部分，除了你看到请求的页面的窗口。
+#. **User interface 用户接口 ：** 用户接口包括地址栏、后退/前进按钮、书签菜单等。浏览器显示的每一个部分，除了你看到请求的页面的窗口。
 
-2. **Browser engine 浏览器引擎：** 浏览器引擎在用户界面和渲染引擎之间传递动作。
+#. **Browser engine 浏览器引擎：** 浏览器引擎在用户界面和渲染引擎之间传递动作。
 
-3. **Rendering engine 渲染引擎：** 渲染引擎负责显示请求的内容。例如，如果请求的内容是HTML，渲染引擎会解析HTML和CSS，并将解析后的内容显示在屏幕上。
+#. **Rendering engine 渲染引擎：** 渲染引擎负责显示请求的内容。例如，如果请求的内容是HTML，渲染引擎会解析HTML和CSS，并将解析后的内容显示在屏幕上。
 
-4. **Networking 网络：** 网络处理网络调用，如HTTP请求，在一个独立于平台的接口后面为不同的平台使用不同的实现。
+#. **Networking 网络：** 网络处理网络调用，如HTTP请求，在一个独立于平台的接口后面为不同的平台使用不同的实现。
 
-5. **UI backend UI后端：** UI后端用于绘制基本的小工具，如组合框和窗口。这个后端暴露了一个通用的接口，不针对特定平台。在这之下，它使用操作系统的用户界面方法。
+#. **UI backend UI后端：** UI后端用于绘制基本的小工具，如组合框和窗口。这个后端暴露了一个通用的接口，不针对特定平台。在这之下，它使用操作系统的用户界面方法。
 
-6. **JavaScript engine：** JavaScript 引擎用于解析和执行 JavaScript 代码。
+#. **JavaScript engine：** JavaScript 引擎用于解析和执行 JavaScript 代码。
 
-7. **Data storage 数据存储：**数据存储是一个持久层。浏览器可能需要在本地保存各种数据，如 cookie。浏览器也支持存储机制，如 localStorage、IndexedDB、WebSQL和FileSystem。
+#. **Data storage 数据存储：**数据存储是一个持久层。浏览器可能需要在本地保存各种数据，如 cookie。浏览器也支持存储机制，如 localStorage、IndexedDB、WebSQL和FileSystem。
 
 HTML parsing
 ------------
@@ -738,11 +740,11 @@ HTML不能用, 常规的自上而下, 或自下而上的, 解析器进行解析�
 
 其原因是:
 
-* 该语言的宽容性。
+#. 该语言的宽容性。
 
-* 浏览器具有传统的容错能力，支持众所周知的无效 HTML 的情况。
+#. 浏览器具有传统的容错能力，支持众所周知的无效 HTML 的情况。
 
-* 解析过程是可重入的。对于其他语言，解析过程中源码不会改变，但在 HTML 中，动态代码（如包含 `document.write()` 调用的脚本元素）可以添加额外的标记 tokens，所以解析过程实际上修改了输入。
+#. 解析过程是可重入的。对于其他语言，解析过程中源码不会改变，但在 HTML 中，动态代码（如包含 `document.write()` 调用的脚本元素）可以添加额外的标记 tokens，所以解析过程实际上修改了输入。
 
 由于无法使用常规的解析技术，浏览器利用一个自定义的解析器来解析 HTML。解析算法的详细描述见 详细描述了 HTML5 规范。
 
@@ -771,11 +773,11 @@ CSS interpretation
 
 * A CSS parser can be top-down or bottom-up when a specific parser generator is used.
 
-* 使用 `"CSS词法和语法 CSS lexical and syntax grammar"`_ 解析 CSS 文件、 ``<style>`` 标签内容, 和 ``style`` 属性值。
+#. 使用 `"CSS词法和语法 CSS lexical and syntax grammar"`_ 解析 CSS 文件、 ``<style>`` 标签内容, 和 ``style`` 属性值。
 
-* 每个 CSS 文件都被解析成一个 ``StyleSheet object``，每个对象都包含, 有选择器的 CSS 规则, 和对象对应的 CSS 语法。
+#. 每个 CSS 文件都被解析成一个 ``StyleSheet object``，每个对象都包含, 有选择器的 CSS 规则, 和对象对应的 CSS 语法。
 
-* 当使用一个特定的解析器生成器时，一个CSS解析器可以是, 自上而下, 或自下而上的。
+#. 当使用一个特定的解析器生成器时，一个CSS解析器可以是, 自上而下, 或自下而上的。
 
 Page Rendering
 --------------
