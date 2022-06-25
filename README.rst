@@ -113,8 +113,8 @@ The CPU uses the ``Interrupt Descriptor Table`` (IDT) to map the interrupt vecto
 When an interrupt arrives, the CPU indexes the IDT with the interrupt vector and runs the appropriate handler.
 Thus, the kernel is entered.
 
-键盘在其中断请求线（IRQ）上发送信号，中断控制器将其映射到一个 "中断向量"``interrupt vector``（整数）。
-CPU使用 "中断描述符表" ``Interrupt Descriptor Table`` （IDT）将中断向量映射到由内核提供的函数（"中断处理程序"``interrupt handlers``）。
+键盘在其中断请求线（IRQ）上发送信号，中断控制器将其映射到一个 "中断向量" ``interrupt vector`` （整数）。
+CPU使用 "中断描述符表" ``Interrupt Descriptor Table`` （IDT）将中断向量映射到由内核提供的函数（"中断处理程序" ``interrupt handlers`` ）。
 当一个中断到来时，CPU用中断向量索引IDT并运行适当的处理程序。
 这样，就进入了内核。
 
@@ -141,25 +141,25 @@ The window (``hWnd``) that is active is actually an edit control and the ``Windo
 
 This code looks within the 3rd parameter that was passed to ``SendMessage`` (``wParam``) and, because it is ``VK_RETURN`` knows the user has hit the ENTER key.
 
-#. HID传输系统将按键下降事件传递给``KBDHID.sys``驱动程序，该驱动程序将HID使用情况转换为扫描码。在这种情况下，扫描代码是`VK_RETURN`（`0x0D`）。
+#. HID传输系统将按键下降事件传递给 ``KBDHID.sys`` 驱动程序，该驱动程序将HID使用情况转换为扫描码。在这种情况下，扫描代码是 ``VK_RETURN`` （ ``0x0D`` ）。
 
-#. ``KBDHID.sys``驱动程序与``KBDCLASS.sys``（键盘类驱动程序）接口。该驱动负责以安全的方式处理所有的键盘和小键盘输入。
+#. ``KBDHID.sys`` 驱动程序与 ``KBDCLASS.sys`` （键盘类驱动程序）接口。该驱动负责以安全的方式处理所有的键盘和小键盘输入。
 
-#. 然后它调用 ``Win32K.sys``（在可能通过安装的第三方键盘过滤器后）。这一切都发生在内核模式下。
+#. 然后它调用 ``Win32K.sys`` （在可能通过安装的第三方键盘过滤器后）。这一切都发生在内核模式下。
 
-#. ``Win32K.sys``通过``GetForegroundWindow()``的API找出哪个窗口是活动窗口。
+#. ``Win32K.sys`` 通过 ``GetForegroundWindow()`` 的API找出哪个窗口是活动窗口。
 
 #. 这个API提供了浏览器地址框的窗口句柄。
 
-#. 然后主Windows "消息泵 message pump" 调用 ``SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, lParam)``。 ``lParam``是一个比特掩码，表示有关按键的进一步信息：重复次数（本例中为0），实际的扫描代码（可能与OEM有关，但对于 ``VK_RETURN`` 一般不会），是否也按了扩展键（例如alt, shift, ctrl）（它们没有），以及其他一些状态。
+#. 然后主Windows "消息泵 message pump" 调用 ``SendMessage(hWnd, WM_KEYDOWN, VK_RETURN, lParam)`` 。 ``lParam`` 是一个比特掩码，表示有关按键的进一步信息：重复次数（本例中为0），实际的扫描代码（可能与OEM有关，但对于 ``VK_RETURN`` 一般不会），是否也按了扩展键（例如alt, shift, ctrl）（它们没有），以及其他一些状态。
 
 #. Windows的 ``SendMessage`` API是一个直接的函数，将消息添加到特定窗口句柄（ ``hWnd`` ）的队列中。
 
 #. 之后，分配给 ``hWnd`` 的主要消息处理函数（称为 ``WindowProc`` ）被调用，以处理队列中的每条消息。
 
-#. 活动的窗口（ ``hWnd``）实际上是一个编辑控件，在这种情况下， ``WindowProc``有一个处理 ``WM_KEYDOWN`` 消息的函数。
+#. 活动的窗口（ ``hWnd`` ）实际上是一个编辑控件，在这种情况下， ``WindowProc`` 有一个处理 ``WM_KEYDOWN`` 消息的函数。
 
-#. 这段代码在传递给 ``SendMessage``(``wParam``)的第三个参数中寻找，因为它是 ``VK_RETURN``，所以知道用户已经按了ENTER键。
+#. 这段代码在传递给 ``SendMessage`` ( ``wParam`` )的第三个参数中寻找，因为它是 ``VK_RETURN`` ，所以知道用户已经按了ENTER键。
 
 (On OS X) A ``KeyDown`` NSEvent is sent to the app
 --------------------------------------------------
@@ -251,7 +251,7 @@ Check HSTS list
 
 * 浏览器检查其 "预装 HSTS（HTTP严格传输安全 HTTP Strict Transport Security）"列表。这是一个要求只通过HTTPS联系的网站的列表。
 
-* 如果该网站在列表中，浏览器将通过HTTPS而不是HTTP发送请求。否则，初始请求将通过HTTP发送。 (请注意，一个网站仍然可以使用HSTS策略， *不* 在HSTS列表中。 用户向网站发出的第一个HTTP请求将收到一个响应，要求用户只发送HTTPS请求。 然而，这个单一的HTTP请求有可能使用户受到`降级攻击`_，这就是为什么HSTS列表包含在现代网络浏览器中的原因)。
+* 如果该网站在列表中，浏览器将通过HTTPS而不是HTTP发送请求。否则，初始请求将通过HTTP发送。 (请注意，一个网站仍然可以使用HSTS策略， *不* 在HSTS列表中。 用户向网站发出的第一个HTTP请求将收到一个响应，要求用户只发送HTTPS请求。 然而，这个单一的HTTP请求有可能使用户受到降级攻击 `downgrade attack`_，这就是为什么HSTS列表包含在现代网络浏览器中的原因)。
 
 DNS lookup
 ----------
@@ -270,9 +270,9 @@ DNS lookup
 
 #. 浏览器检查该域名是否在其缓存中。(要查看Chrome浏览器的 DNS 缓存，请到 `chrome://net-internals/#dns <chrome://net-internals/#dns>`_)。
 
-#. 如果没有找到，浏览器会调用``gethostbyname``库函数（因操作系统而异）来进行查询。
+#. 如果没有找到，浏览器会调用 ``gethostbyname`` 库函数（因操作系统而异）来进行查询。
 
-#. ``gethostbyname`` 检查主机名是否可以在本地 ``hosts`` 文件（其位置 `因操作系统而异`_） 中通过引用来解决，然后再尝试通过 DNS 解决该主机名。
+#. ``gethostbyname`` 检查主机名是否可以在本地 ``hosts`` 文件（其位置因操作系统而异 `varies by OS`_） 中通过引用来解决，然后再尝试通过 DNS 解决该主机名。
 
 #. 如果 ``gethostbyname`` 没有缓存，也不能在 ``hosts`` 文件中找到它，那么它就向网络堆栈中配置的 DNS 服务器提出请求。这通常是指本地路由器或 ISP 的缓存 DNS 服务器。
 
@@ -381,7 +381,7 @@ Once the browser receives the IP address of the destination server, it takes tha
 
 * The packet next arrives at the Link Layer. A frame header is added that includes the MAC address of the machine's NIC as well as the MAC address of the gateway (local router). As before, if the kernel does not know the MAC address of the gateway, it must broadcast an ARP query to find it.
 
-一旦浏览器收到目标服务器的IP地址，就会从URL中获取该地址和给定的端口号（HTTP协议默认为80端口，HTTPS为443端口），并调用系统库函数`socket`，请求一个TCP套接字流 - ``AF_INET/AF_INET6`` 和 ``SOCK_STREAM``。
+一旦浏览器收到目标服务器的IP地址，就会从URL中获取该地址和给定的端口号（HTTP协议默认为80端口，HTTPS为443端口），并调用系统库函数 ``socket`` ，请求一个TCP套接字流 - ``AF_INET/AF_INET6`` 和 ``SOCK_STREAM``。
 
 #. 这个请求首先被传递到传输层，在那里制作了一个TCP段。目标端口被添加到标题中，并从内核的动态端口范围（Linux的ip_local_port_range）中选择一个源端口。
 
@@ -496,9 +496,9 @@ Sometimes, due to network congestion or flaky hardware connections, TLS packets 
 
 * After reaching the slow-start threshold, the window increases additively for each packet acknowledged. If a packet is dropped, the window reduces exponentially until another packet is acknowledged.
 
-有时，由于网络拥堵或硬件连接不稳定，TLS 数据包在到达其最终目的地之前就会被丢弃。这时发件人必须决定如何应对。这方面的算法被称为 `TCP拥堵控制 TCP congestion control`。这取决于发件人；最常见的算法是较新的操作系统上的 `cubic`_ 和几乎所有其他系统上的 `New Reno`_。
+有时，由于网络拥堵或硬件连接不稳定，TLS 数据包在到达其最终目的地之前就会被丢弃。这时发件人必须决定如何应对。这方面的算法被称为 TCP拥堵控制 `TCP congestion control`_。这取决于发件人；最常见的算法是较新的操作系统上的 `cubic`_ 和几乎所有其他系统上的 `New Reno`_。
 
-#. 客户端根据连接的 `最大网段大小 maximum segment size`_（MSS）选择一个 `拥堵窗口 congestion window`_。
+#. 客户端根据连接的 "最大网段大小" `maximum segment size`_ （MSS）选择一个 拥堵窗口 `congestion window`_ 。
 
 #. 对于每个确认的数据包，窗口的大小增加一倍，直到达到 "慢速启动阈值"。在一些实施方案中，这个阈值是自适应的。
 
@@ -522,11 +522,11 @@ If the client is using the HTTP protocol and does not support SPDY, it sends a r
 
 where ``[other headers]`` refers to a series of colon-separated key-value pairs formatted as per the HTTP specification and separated by single newlines.
 
-其中 ``[other headers]``指的是一系列用冒号分隔的 key-value 对，按照 HTTP 规范的格式，用 single newlines 分隔。
+其中 ``[other headers]`` 指的是一系列用冒号分隔的 key-value 对，按照 HTTP 规范的格式，用 single newlines 分隔。
 
 (This assumes the web browser being used doesn't have any bugs violating the HTTP spec. This also assumes that the web browser is using ``HTTP/1.1``, otherwise it may not include the ``Host`` header in the request and the version specified in the ``GET`` request will either be ``HTTP/1.0`` or ``HTTP/0.9``.)
 
-(假设使用的网络浏览器没有任何违反HTTP规范的错误。这也假设网络浏览器使用的是 ``HTTP/1.1``，否则它可能不会在请求中包括 ``Host``头，而在 ``GET`` 请求中指定的版本将是 ``HTTP/1.0`` 或 ``HTTP/0.9``)。
+(假设使用的网络浏览器没有任何违反HTTP规范的错误。这也假设网络浏览器使用的是 ``HTTP/1.1`` ，否则它可能不会在请求中包括 ``Host`` 头，而在 ``GET`` 请求中指定的版本将是 ``HTTP/1.0`` 或 ``HTTP/0.9`` )。
 
 HTTP/1.1 defines the "close" connection option for the sender to signal that the connection will be closed after completion of the response. For example,
 
@@ -570,7 +570,7 @@ After parsing the HTML, the web browser (and server) repeats this process for ev
 
 If the HTML referenced a resource on a different domain than ``www.google.com``, the web browser goes back to the steps involved in resolving the other domain, and follows all steps up to this point for that domain. The ``Host`` header in the request will be set to the appropriate server name instead of ``google.com``.
 
-如果HTML引用了与 ``www.google.com``不同的域上的资源，网络浏览器就会回到解析其他域的步骤，并遵循该域到此为止的所有步骤。请求中的 ``Host`` 头将被设置为适当的服务器名称，而不是 ``google.com``。
+如果HTML引用了与 ``www.google.com`` 不同的域上的资源，网络浏览器就会回到解析其他域的步骤，并遵循该域到此为止的所有步骤。请求中的 ``Host`` 头将被设置为适当的服务器名称，而不是 ``google.com`` 。
 
 HTTP Server Request Handle
 --------------------------
@@ -606,7 +606,7 @@ HTTPD（HTTP Daemon）服务器是, 在服务器端处理请求/响应的服务�
 
 #. 服务器将请求分解为以下参数。
 
-   * HTTP请求方法（ ``GET', ``HEAD``, ``POST``, ``PUT``, ``PATCH``, ``DELETE``, ``CONNECT``, ``OPTIONS``, 或 ``TRACE``）。在如果是直接在地址栏输入的URL，这将是 ``GET``。
+   * HTTP请求方法（ ``GET`` , ``HEAD`` , ``POST`` , ``PUT`` , ``PATCH`` , ``DELETE`` , ``CONNECT`` , ``OPTIONS`` 或 ``TRACE`` ）。在如果是直接在地址栏输入的URL，这将是 ``GET``。
 
    * 域名，在本例中是 ``google.com``。
 
@@ -773,7 +773,7 @@ CSS interpretation
 
 * A CSS parser can be top-down or bottom-up when a specific parser generator is used.
 
-#. 使用 `"CSS词法和语法 CSS lexical and syntax grammar"`_ 解析 CSS 文件、 ``<style>`` 标签内容, 和 ``style`` 属性值。
+#. 使用 CSS 词法和语法 `"CSS lexical and syntax grammar"`_ 解析 CSS 文件、 ``<style>`` 标签内容, 和 ``style`` 属性值。
 
 #. 每个 CSS 文件都被解析成一个 ``StyleSheet object``，每个对象都包含, 有选择器的 CSS 规则, 和对象对应的 CSS 语法。
 
@@ -837,9 +837,9 @@ GPU Rendering
 
 * When using ``GPU`` for graphical rendering computations the graphical software layers split the task into multiple pieces, so it can take advantage of ``GPU`` massive parallelism for float point calculations required for the rendering process.
 
-#. 在渲染过程中，图形计算层可以使用通用的 "CPU "或图形处理器 "GPU"。
+#. 在渲染过程中，图形计算层可以使用通用的 ``CPU`` 或图形处理器 ``GPU``。
 
-#. 当使用`GPU'进行图形渲染计算时，图形软件层将任务分成多个部分，因此它可以利用`GPU'的大规模并行性进行渲染过程中所需要的浮点计算。
+#. 当使用 ``GPU`` 进行图形渲染计算时，图形软件层将任务分成多个部分，因此它可以利用 ``GPU`` 的大规模并行性进行渲染过程中所需要的浮点计算。
 
 
 Window Server
